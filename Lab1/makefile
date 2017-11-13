@@ -7,5 +7,7 @@ run:
 clean:
 	rm -f *.class
 
-test: compile run clean
+solve:
+	java -classpath ./mysql-connector-java-3.0.10-stable-bin.jar:. TestClass
 
+test: compile run clean
