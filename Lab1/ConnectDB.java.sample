@@ -6,8 +6,8 @@ public class ConnectDB
 	private Statement statement;
 
 	final static String myhostdb = "localhost/databaseName"; // change databaseName
-		
-	public ConnectDB() 
+
+	public ConnectDB()
 	{
 		connection= null;
 		statement = null;
@@ -21,7 +21,7 @@ public class ConnectDB
 			System.out.println("DBError: Driver Missing" + e);
 		}
 	}
-	
+
 	// Establish a connection to DB.
 	//
 	public boolean open()
