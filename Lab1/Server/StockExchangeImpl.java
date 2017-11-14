@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 
-public class StockExchange {
+public class StockExchangeImpl extends UnicastRemoteObject implements StockInterface {
 	private ConnectDB dbHandle;
 
-	public StockExchange() {
+	public StockExchangeImpl() throws RemoteException {
+		super();
+
 		dbHandle = new ConnectDB();
 		// Verbindung zur Datenbank herstellen
 		System.out.println("StockExchange: Opening database");
@@ -81,7 +85,7 @@ public class StockExchange {
 		return (sumD2 - sumD1)/sumD1 * 100;
 	}
 
-	private class StockException extends Exception {
+	private class StockException extends RemoteException {
 		String message;
 
 		public StockException(String message) {
