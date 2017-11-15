@@ -59,7 +59,7 @@ public class StockExchangeImpl extends UnicastRemoteObject implements StockInter
 	public WinnerInfo getWinner(int d1, int d2) throws StockException {
 		String[] agNames = getAGs();
 		if(agNames.length == 0) {
-			throw new StockException("Test Exeption");
+			throw new StockException("Test Exception");
 		}
 		WinnerInfo winnerInfo = new WinnerInfo(agNames[0], ((getMarketValue(agNames[0],d2) - getMarketValue(agNames[0],d1))/getMarketValue(agNames[0],d1)) * 100);
 		for(int i = 1; i < agNames.length; ++i) {
@@ -94,5 +94,40 @@ public class StockExchangeImpl extends UnicastRemoteObject implements StockInter
 		public String toString() {
 			return ("StockException Occurred: " + message) ;
 		}
+	}
+
+	public class WinnerInfo implements WinnerInfoInterface {
+	    private String agName;
+	    private double percentageGain;
+
+	    public WinnerInfo() {
+	        this.agName = "";
+	        this.percentageGain = 0;
+	    }
+
+	    public WinnerInfo(String agName, double percentageGain) {
+	        this.agName = agName;
+	        this.percentageGain = percentageGain;
+	    }
+
+	    public void setAgName(String agName) {
+	        this.agName = agName;
+	    }
+
+	    public void setPercentageGain(double percentageGain) {
+	        this.percentageGain = percentageGain;
+	    }
+
+	    public String getAgName() {
+	        return agName;
+	    }
+
+	    public double getPercentageGain() {
+	        return percentageGain;
+	    }
+
+	    public String toString() {
+	        return "agName:" + agName + "\npercentageGain:" + percentageGain;
+	    }
 	}
 }
