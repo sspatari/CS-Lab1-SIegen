@@ -6,7 +6,7 @@ public class StockExchangeServer {
             StockExchangeImpl stockExchangeImpl = new StockExchangeImpl();
             String localhost = "192.168.0.102";
             Naming.rebind("rmi://" + localhost + "/Stock", stockExchangeImpl);
-            //System.out.println(stockExchangeImpl.getWinner(1,2));
+            // System.out.println(stockExchangeImpl.getWinner(1,2).getAgName());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
 			e.printStackTrace();

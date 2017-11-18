@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Depot
+public class Depot implements DepotInterface
 {
 	private StockExchangeImpl market;
 	private double cashBalance;
@@ -51,9 +51,9 @@ public class Depot
 		return cashBalance;
 	}
 
-	public List<DepotEntry> getStatement(int day)
+	public List<DepotEntryInterface> getStatement(int day)
 	{
-		ArrayList<DepotEntry> result = new ArrayList<DepotEntry>();
+		ArrayList<DepotEntryInterface> result = new ArrayList<DepotEntryInterface>();
 		double total = cashBalance;
 		for (Map.Entry<String,Integer> i : stock.entrySet()) {
 			String ag = i.getKey();
@@ -65,5 +65,31 @@ public class Depot
 		result.add(new DepotEntry("Cash", 0, cashBalance));
 		result.add(new DepotEntry("Total", 0, total));
 		return result;
+	}
+
+	public class DepotEntry implements DepotEntryInterface {
+		private String name;
+		private int    num;
+		private double value;
+
+		public DepotEntry(String name, int num, double value) {
+			this.name = name;
+			this.num = num;
+			this.value = value;
+		}
+		public String getName() {
+			return name;
+		}
+		public int getQuantity() {
+			return num;
+		}
+		public double getValue() {
+			return value;
+		}
+		public String toString() {
+			if (num > 0)
+				return name + ", " + num + ": " + value;
+			return name + ": " + value;
+		}
 	}
 }
