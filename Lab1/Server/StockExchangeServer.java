@@ -4,7 +4,7 @@ public class StockExchangeServer {
     public static void main(String args[]) {
         try{
             StockExchangeImpl stockExchangeImpl = new StockExchangeImpl();
-            String localhost = "192.168.0.102";
+            String localhost = "localhost";
             Naming.rebind("rmi://" + localhost + "/Stock", stockExchangeImpl);
             // System.out.println(stockExchangeImpl.getWinner(1,2).getAgName());
         } catch (Exception e) {

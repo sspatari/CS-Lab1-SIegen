@@ -61,17 +61,23 @@ public class StockExchangeImpl extends UnicastRemoteObject implements StockInter
 		if(agNames.length == 0) {
 			throw new StockException("Test Exception");
 		}
-		WinnerInfo winnerInfo = new WinnerInfo(agNames[0], ((getMarketValue(agNames[0],d2) - getMarketValue(agNames[0],d1))/getMarketValue(agNames[0],d1)) * 100);
-		for(int i = 1; i < agNames.length; ++i) {
-			double marketValue1 = getMarketValue(agNames[i],d1);
-			double marketValue2 = getMarketValue(agNames[i],d2);
-			double percentageGain = (marketValue2 - marketValue1)/marketValue1 * 100;
-			if(winnerInfo.getPercentageGain() < percentageGain) {
-				winnerInfo.setAgName(agNames[i]);
-				winnerInfo.setPercentageGain(percentageGain);
+		try {
+			WinnerInfo winnerInfo = new WinnerInfo(agNames[0], ((getMarketValue(agNames[0],d2) - getMarketValue(agNames[0],d1))/getMarketValue(agNames[0],d1)) * 100);
+			for(int i = 1; i < agNames.length; ++i) {
+				double marketValue1 = getMarketValue(agNames[i],d1);
+				double marketValue2 = getMarketValue(agNames[i],d2);
+				double percentageGain = (marketValue2 - marketValue1)/marketValue1 * 100;
+				if(winnerInfo.getPercentageGain() < percentageGain) {
+					winnerInfo.setAgName(agNames[i]);
+					winnerInfo.setPercentageGain(percentageGain);
+				}
 			}
+			return winnerInfo;
+		} catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
+			return null;
 		}
-		return winnerInfo;
 	}
 
 	public double tendence(int d1) throws StockException {
@@ -96,16 +102,16 @@ public class StockExchangeImpl extends UnicastRemoteObject implements StockInter
 		}
 	}
 
-	public class WinnerInfo implements WinnerInfoInterface {
+	private class WinnerInfo extends UnicastRemoteObject implements WinnerInfoInterface {
 	    private String agName;
 	    private double percentageGain;
 
-	    public WinnerInfo() {
+	    public WinnerInfo() throws RemoteException {
 	        this.agName = "";
 	        this.percentageGain = 0;
 	    }
 
-	    public WinnerInfo(String agName, double percentageGain) {
+	    public WinnerInfo(String agName, double percentageGain) throws RemoteException {
 	        this.agName = agName;
 	        this.percentageGain = percentageGain;
 	    }
