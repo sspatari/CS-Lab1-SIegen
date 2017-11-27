@@ -2,17 +2,16 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface DepotInterface {
-	public boolean buy(String ag, int amount, int day);
-	public boolean sell(String ag, int amount, int day);
-	public int stockAmount(String ag);
-	public double cashBalance();
-	public List<DepotEntryInterface> getStatement(int day);
+public interface DepotInterface extends Remote {
+	public boolean buy(String ag, int amount, int day) throws RemoteException;
+	public boolean sell(String ag, int amount, int day) throws RemoteException;
+	public int stockAmount(String ag) throws RemoteException;
+	public double cashBalance() throws RemoteException;
+	public List<DepotEntryInterface> getStatement(int day) throws RemoteException;
 
-	public interface DepotEntryInterface {
-		public String getName();
-		public int getQuantity();
-		public double getValue();
-		public String toString();
+	public interface DepotEntryInterface extends Remote{
+		public String getName() throws RemoteException;
+		public int getQuantity() throws RemoteException;
+		public double getValue() throws RemoteException;
 	}
 }

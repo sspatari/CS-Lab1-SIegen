@@ -2,14 +2,16 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.rmi.*;
+import java.rmi.server.UnicastRemoteObject;
 
-public class Depot implements DepotInterface
+public class Depot extends UnicastRemoteObject implements DepotInterface
 {
 	private StockExchangeImpl market;
 	private double cashBalance;
 	private HashMap<String,Integer> stock;
 
-	Depot(StockExchangeImpl market)
+	Depot(StockExchangeImpl market) throws RemoteException
 	{
 		this.market = market;
 		cashBalance = 10000.0;
@@ -55,37 +57,46 @@ public class Depot implements DepotInterface
 	{
 		ArrayList<DepotEntryInterface> result = new ArrayList<DepotEntryInterface>();
 		double total = cashBalance;
-		for (Map.Entry<String,Integer> i : stock.entrySet()) {
-			String ag = i.getKey();
-			int num = i.getValue();
-			double val = market.getMarketValue(ag, day) * num;
-			result.add(new DepotEntry(ag, num, val));
-			total += val;
-		}
-		result.add(new DepotEntry("Cash", 0, cashBalance));
-		result.add(new DepotEntry("Total", 0, total));
+		try {
+			for (Map.Entry<String,Integer> i : stock.entrySet()) {
+				String ag = i.getKey();
+				int num = i.getValue();
+				double val = market.getMarketValue(ag, day) * num;
+				result.add(new DepotEntry(ag, num, val));
+				total += val;
+			}
+			result.add(new DepotEntry("Cash", 0, cashBalance));
+			result.add(new DepotEntry("Total", 0, total));
+		} catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+			e.printStackTrace();
+        }
 		return result;
 	}
 
-	public class DepotEntry implements DepotEntryInterface {
+	private class DepotEntry extends UnicastRemoteObject implements DepotEntryInterface {
 		private String name;
 		private int    num;
 		private double value;
 
-		public DepotEntry(String name, int num, double value) {
+		public DepotEntry(String name, int num, double value) throws RemoteException {
 			this.name = name;
 			this.num = num;
 			this.value = value;
 		}
+
 		public String getName() {
 			return name;
 		}
+
 		public int getQuantity() {
 			return num;
 		}
+
 		public double getValue() {
 			return value;
 		}
+
 		public String toString() {
 			if (num > 0)
 				return name + ", " + num + ": " + value;

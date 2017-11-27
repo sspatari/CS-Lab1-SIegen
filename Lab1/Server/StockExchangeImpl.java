@@ -52,7 +52,7 @@ public class StockExchangeImpl extends UnicastRemoteObject implements StockInter
 		return -1.0;
 	}
 
-	public Depot openDepot() {
+	public Depot openDepot() throws RemoteException {
 		return new Depot(this);
 	}
 

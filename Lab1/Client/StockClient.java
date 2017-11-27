@@ -28,6 +28,36 @@ public class StockClient {
             System.out.println("Enter a day from 1 to 30: ");
             int tendence_day = in.nextInt();
             System.out.println(obj.tendence(tendence_day));
+
+            DepotInterface depot = obj.openDepot();
+            System.out.println("Cash Balance = " + depot.cashBalance());
+
+            System.out.print("Enter name of stock to find what amount of it do you have: ");
+            ag_name = in.nextLine(); // need to solve problem with previos newline detection.
+            ag_name = in.nextLine();
+            System.out.println("Stock to search " + ag_name + "." );
+            System.out.println("BMW stockAmount = " + depot.stockAmount(ag_name));
+
+            System.out.print("What stock to buy: ");
+            ag_name = in.nextLine();
+            System.out.print("What amount to buy: ");
+            amount = in.nextInt();
+            System.out.print("What stock to buy: ");
+            day = in.nextInt();
+            if(depot.buy(ag_name, amount, day)) {
+                System.out.println("Succes");
+            }
+
+            System.out.print("Enter day for which to print the statement: ");
+            day = in.nextInt();
+            System.out.println("Printing statement:");
+            for(DepotInterface.DepotEntryInterface depotEntry: depot.getStatement(day)) {
+                System.out.println("ag_name:" + depotEntry.getName() + " quantity:" + depotEntry.getQuantity() + " value:" + depotEntry.getValue());
+            }
+
+            // System.out.println("Cash Balance = " + obj.openDepot().cashBalance());
+
+
         }
         catch (Exception e) {
             System.out.println("HelloClient: " + e.getMessage());
