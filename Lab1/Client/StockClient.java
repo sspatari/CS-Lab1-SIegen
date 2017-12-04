@@ -41,8 +41,8 @@ public class StockClient {
             System.out.print("What stock to buy: ");
             ag_name = in.nextLine();
             System.out.print("What amount to buy: ");
-            amount = in.nextInt();
-            System.out.print("What stock to buy: ");
+            int amount = in.nextInt();
+            System.out.print("What day: ");
             day = in.nextInt();
             if(depot.buy(ag_name, amount, day)) {
                 System.out.println("Succes");
