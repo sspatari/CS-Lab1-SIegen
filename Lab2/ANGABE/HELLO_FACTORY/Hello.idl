@@ -1,0 +1,11 @@
+module HelloWorld
+{
+  interface Hello
+  {
+   string sayHello();
+  };
+  interface HelloFactory
+  {
+   Hello createHello(in string Name);
+  };
+};
