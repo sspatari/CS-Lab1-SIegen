@@ -12,6 +12,6 @@ public interface StockInterface extends Remote
 
     public interface WinnerInfoInterface extends Remote {
         public String getAgName() throws RemoteException;
-	    public double getPercentageGain() throws RemoteException;
+        public double getPercentageGain() throws RemoteException;
     }
 }

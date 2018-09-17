@@ -81,8 +81,6 @@ public class StockExchange {
 		return (sumD2 - sumD1)/sumD1 * 100;
 	}
 
-
-
 	private class StockException extends Exception {
 		String message;
 
